@@ -27,4 +27,20 @@ public abstract class GameObject {
         this.x += this.velX;
         this.y += this.velY;
     }
+
+    public double getX() {
+        return x;
+    }
+
+    public void setX(double x) {
+        this.x = x;
+    }
+
+    public double getY() {
+        return y;
+    }
+
+    public void setY(double y) {
+        this.y = y;
+    }
 }

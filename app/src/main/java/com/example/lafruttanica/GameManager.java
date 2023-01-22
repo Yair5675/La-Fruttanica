@@ -1,5 +1,6 @@
 package com.example.lafruttanica;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -16,18 +17,18 @@ import com.example.lafruttanica.gameobjects.Platform;
  * This class manages all objects and states in the game, and is responsible to update and render
  * those objects on the screen.
  */
+@SuppressLint("ViewConstructor")
 public class GameManager extends SurfaceView implements SurfaceHolder.Callback {
     private final GameLoop gameLoop; /* A gameLoop instance to control the frame-rate of the game */
     private final Platform platform; /* The platform object the player is standing on */
+    private final float WINDOW_WIDTH;
+    private final float WINDOW_HEIGHT;
 
-    public enum GameState {
-        OPEN_SCREEN,
-        IN_GAME,
-        PAUSE
-    }
-
-    public GameManager(Context context) {
+    public GameManager(Context context, final float WINDOW_WIDTH, final float WINDOW_HEIGHT) {
         super(context);
+
+        this.WINDOW_WIDTH = WINDOW_WIDTH;
+        this.WINDOW_HEIGHT = WINDOW_HEIGHT;
 
         // Get surface holder and add callback:
         SurfaceHolder surfaceHolder = getHolder();
@@ -39,7 +40,7 @@ public class GameManager extends SurfaceView implements SurfaceHolder.Callback {
         setFocusable(true);
 
         // Setting up the platform:
-        this.platform = new Platform(0, 500, 1, this);
+        this.platform = new Platform(1, this);
     }
 
     @Override
@@ -89,5 +90,13 @@ public class GameManager extends SurfaceView implements SurfaceHolder.Callback {
      */
     public void update() {
 
+    }
+
+    public float getScreenWidth() {
+        return WINDOW_WIDTH;
+    }
+
+    public float getScreenHeight() {
+        return WINDOW_HEIGHT;
     }
 }
