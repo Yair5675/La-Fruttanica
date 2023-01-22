@@ -5,10 +5,13 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.icu.util.EthiopicCalendar;
 
 import com.example.lafruttanica.R;
 
 public class Player extends GameObject {
+    public boolean accelerateLeft; /* An indicator to whether the player should accelerate left */
+    public boolean accelerateRight; /* An indicator to whether the player should accelerate right */
 
     public Player(final int SCREEN_WIDTH, final Resources res) {
         // Loading the image:
@@ -22,6 +25,10 @@ public class Player extends GameObject {
         // Setting the x to the middle of the screen and the y to the top, so the player will fall:
         this.x = (SCREEN_WIDTH - this.getWidth()) / 2.0;
         this.y = 0;
+
+        // Setting the acceleration indications to false:
+        this.accelerateRight = false;
+        this.accelerateLeft = false;
     }
 
     @Override
