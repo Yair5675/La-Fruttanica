@@ -32,6 +32,12 @@ public abstract class Fruit extends GameObject {
                 (UPPER_SPAWN_LIMIT + random.nextInt(HEIGHT_AREA)) / 100.0;
     }
 
+    @Override
+    public void update() {
+        // Each fruit has a special "move" method:
+        this.move();
+    }
+
     public int getScore() {
         return SCORE;
     }

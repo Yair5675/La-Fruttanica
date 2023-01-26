@@ -14,12 +14,11 @@ public abstract class GameObject {
     protected double velY; /* Velocity on the y axis */
     protected Bitmap image; /* The image of the object */
     private static final double GRAVITY = 2.5; /* The gravity enacted on the player */
+    private static final double MAX_SPEED = 35; /* The maximum possible speed of the player */
 
     // To make the game compatible for every device, the movement of objects will be multiplied by this ratio:
     protected double screenRatioX;
     protected double screenRatioY;
-
-
 
     public GameObject() {
         this.x = 0;
@@ -57,6 +56,22 @@ public abstract class GameObject {
     public abstract void update();
 
     protected void move() {
+        // Making sure the object's x-velocity doesn't exceeds the maximum allowed speed:
+        if (this.velX > 0)
+            this.velX = Math.min(this.velX, MAX_SPEED * screenRatioX);
+        else
+            this.velX = Math.max(this.velX, -MAX_SPEED * screenRatioX);
+
+        // Making sure the object's y-velocity doesn't exceeds the maximum allowed speed:
+        if (this.velY > 0)
+            this.velY = Math.min(this.velY, MAX_SPEED * screenRatioY);
+        else
+            this.velY = Math.max(this.velY, -MAX_SPEED * screenRatioY);
+
+        // Applying gravity:
+        this.fall();
+
+        // Updating the object's coordinates:
         this.x += this.velX;
         this.y += this.velY;
     }
@@ -101,6 +116,9 @@ public abstract class GameObject {
         return this.image.getHeight();
     }
 
+    /**
+     * Function for collision detecting between two objects.
+     */
     public boolean collides(GameObject other) {
         return this.x < other.x + other.getWidth() &&
                this.x + this.getWidth() > other.x &&

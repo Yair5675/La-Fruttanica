@@ -14,7 +14,6 @@ public class Player extends GameObject {
     }
     private accelerate acceleration; /* The direction of the vertical acceleration */
     private static final double FRICTION = 0.4; /* Friction that applies to the player when he isn't moving */
-    private static final double MAX_SPEED = 35; /* The maximum possible speed of the player */
     private static final double SIDE_ACCELERATION = 1; /* The acceleration of the player */
 
     public Player(final int SCREEN_WIDTH, final Resources res, final double screenRatioX,
@@ -70,11 +69,6 @@ public class Player extends GameObject {
                     this.velX = Math.min(0, this.velX + FRICTION * screenRatioX);
             }
         }
-        // Making sure the player's speed doesn't exceeds the maximum allowed speed:
-        this.velX = Math.min(this.velX, MAX_SPEED * screenRatioX);
-
-        // Making the player fall:
-        this.fall();
 
         // Moving the object:
         this.move();

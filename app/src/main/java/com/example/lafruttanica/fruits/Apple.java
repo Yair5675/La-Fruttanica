@@ -18,14 +18,4 @@ public class Apple extends Fruit {
         // Spawning the apple at a random location:
         this.setSpawnCoordinates();
     }
-
-    @Override
-    public void move() {
-        super.move();
-    }
-
-    @Override
-    public void update() {
-
-    }
 }
