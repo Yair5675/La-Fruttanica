@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">La Fruttanica</string>
+    <string name="play_btn_txt"><b>Let\'s Begin!</b></string>
 </resources>

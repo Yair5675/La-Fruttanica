@@ -13,6 +13,13 @@ public abstract class GameObject {
     protected double velX; /* Velocity on the x axis */
     protected double velY; /* Velocity on the y axis */
     protected Bitmap image; /* The image of the object */
+    private static final double GRAVITY = 2.5; /* The gravity enacted on the player */
+
+    // To make the game compatible for every device, the movement of objects will be multiplied by this ratio:
+    protected double screenRatioX;
+    protected double screenRatioY;
+
+
 
     public GameObject() {
         this.x = 0;
@@ -20,6 +27,8 @@ public abstract class GameObject {
         this.velX = 0;
         this.velY = 0;
         this.image = null;
+        this.screenRatioX = 1;
+        this.screenRatioY = 1;
     }
 
     public GameObject(double x, double y, double velX, double velY) {
@@ -28,6 +37,17 @@ public abstract class GameObject {
         this.velX = velX;
         this.velY = velY;
         this.image = null;
+        this.screenRatioX = 1;
+        this.screenRatioY = 1;
+    }
+
+    public GameObject(double x, double y, double velX, double velY, double screenRatioX, double screenRatioY) {
+        this.x = x;
+        this.y = y;
+        this.velX = velX;
+        this.velY = velY;
+        this.screenRatioX = screenRatioX;
+        this.screenRatioY = screenRatioY;
     }
 
     public void draw(Canvas canvas) {
@@ -36,7 +56,7 @@ public abstract class GameObject {
 
     public abstract void update();
 
-    public void move() {
+    protected void move() {
         this.x += this.velX;
         this.y += this.velY;
     }
@@ -86,5 +106,12 @@ public abstract class GameObject {
                this.x + this.getWidth() > other.x &&
                this.y < other.y + other.getHeight() &&
                this.y + this.getHeight() > other.y;
+    }
+
+    /**
+     * Applies gravity to the object.
+     */
+    protected void fall() {
+        this.velY += GRAVITY * screenRatioY;
     }
 }

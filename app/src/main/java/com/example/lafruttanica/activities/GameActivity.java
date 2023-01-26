@@ -1,11 +1,11 @@
-package com.example.lafruttanica;
+package com.example.lafruttanica.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.graphics.Point;
 import android.os.Bundle;
-import android.view.MotionEvent;
-import android.view.View;
+
+import com.example.lafruttanica.gamehandlers.GameView;
 
 public class GameActivity extends AppCompatActivity {
     private GameView gameView;
@@ -25,12 +25,10 @@ public class GameActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        gameView.pause();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        gameView.resume();
     }
 }
