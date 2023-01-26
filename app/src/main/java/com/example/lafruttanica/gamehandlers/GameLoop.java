@@ -9,12 +9,12 @@ public class GameLoop extends Thread {
     private double averageFPS; /* The average frames per second */
     private boolean isRunning; /* Whether the gameLoop is running or not */
     private final SurfaceHolder surfaceHolder; /* Surface holder to manage the screen */
-    private final GameView gameManager; /* Game object for rendering and updating game objects */
+    private final GameManager gameManager; /* Game object for rendering and updating game objects */
 
-    private final static double MAX_UPS = 50; /* The maximum updates per second */
+    private final static double MAX_UPS = 30; /* The maximum updates per second */
     private final static double UPS_FREQ = 1e3 / MAX_UPS; /* The actual UPS frequency */
 
-    public GameLoop(final GameView gameManager, final SurfaceHolder surfaceHolder) {
+    public GameLoop(final GameManager gameManager, final SurfaceHolder surfaceHolder) {
         this.isRunning = false;
         this.averageUPS = 0;
         this.averageFPS = 0;
@@ -71,11 +71,12 @@ public class GameLoop extends Thread {
 
                 // Preventing multiple threads from calling the 'update' and 'draw' methods:
                 synchronized (this.surfaceHolder) {
+                    // Drawing the objects in the game:
+                    this.gameManager.draw(canvas);
+
                     // Updating the game:
                     this.gameManager.update();
                     updatesCount++;
-                    // Drawing the objects in the game:
-                    this.gameManager.draw(canvas);
                 }
 
             } catch (IllegalArgumentException e) {
@@ -129,5 +130,9 @@ public class GameLoop extends Thread {
                 framesCount = 0;
             }
         }
+    }
+
+    public static double getMaxUps() {
+        return MAX_UPS;
     }
 }

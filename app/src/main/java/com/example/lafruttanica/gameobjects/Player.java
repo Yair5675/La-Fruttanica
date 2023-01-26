@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
 import com.example.lafruttanica.R;
+import com.example.lafruttanica.gamehandlers.GameManager;
 
 public class Player extends GameObject {
     public enum accelerate {
@@ -12,12 +13,20 @@ public class Player extends GameObject {
         RIGHT,
         NONE
     }
+    public int score; /* The score of the player */
     private accelerate acceleration; /* The direction of the vertical acceleration */
-    private static final double FRICTION = 0.4; /* Friction that applies to the player when he isn't moving */
-    private static final double SIDE_ACCELERATION = 1; /* The acceleration of the player */
+    private static final double FRICTION = 1; /* Friction that applies to the player when he isn't moving */
+    private static final double SIDE_ACCELERATION = 3; /* The acceleration of the player */
 
-    public Player(final int SCREEN_WIDTH, final Resources res, final double screenRatioX,
-                  final double screenRatioY) {
+    public Player(final GameManager gameManager) {
+        super(gameManager.getScreenWidth(), gameManager.getScreenHeight());
+
+        // Getting the resources:
+        final Resources res = gameManager.getResources();
+
+        // Setting the score to 0:
+        this.score = 0;
+
         // Setting the acceleration to none:
         this.acceleration = accelerate.NONE;
 
@@ -34,10 +43,6 @@ public class Player extends GameObject {
         // Setting the x to the middle of the screen and the y to the top, so the player will fall:
         this.x = (SCREEN_WIDTH - this.getWidth()) / 2.0;
         this.y = 0;
-
-        // Setting the ratio:
-        this.screenRatioX = screenRatioX;
-        this.screenRatioY = screenRatioY;
     }
 
     /**

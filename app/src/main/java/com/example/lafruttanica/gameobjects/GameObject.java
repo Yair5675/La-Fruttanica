@@ -13,40 +13,25 @@ public abstract class GameObject {
     protected double velX; /* Velocity on the x axis */
     protected double velY; /* Velocity on the y axis */
     protected Bitmap image; /* The image of the object */
-    private static final double GRAVITY = 2.5; /* The gravity enacted on the player */
-    private static final double MAX_SPEED = 35; /* The maximum possible speed of the player */
+    protected final int SCREEN_WIDTH; /* The width of the screen */
+    protected final int SCREEN_HEIGHT; /* The height of the screen */
+    private static final double GRAVITY = 4; /* The gravity enacted on the player */
+    private static final double MAX_SPEED = 70; /* The maximum possible speed of the player */
 
     // To make the game compatible for every device, the movement of objects will be multiplied by this ratio:
     protected double screenRatioX;
     protected double screenRatioY;
 
-    public GameObject() {
+    public GameObject(final int SCREEN_WIDTH, final int SCREEN_HEIGHT) {
         this.x = 0;
         this.y = 0;
         this.velX = 0;
         this.velY = 0;
         this.image = null;
-        this.screenRatioX = 1;
-        this.screenRatioY = 1;
-    }
-
-    public GameObject(double x, double y, double velX, double velY) {
-        this.x = x;
-        this.y = y;
-        this.velX = velX;
-        this.velY = velY;
-        this.image = null;
-        this.screenRatioX = 1;
-        this.screenRatioY = 1;
-    }
-
-    public GameObject(double x, double y, double velX, double velY, double screenRatioX, double screenRatioY) {
-        this.x = x;
-        this.y = y;
-        this.velX = velX;
-        this.velY = velY;
-        this.screenRatioX = screenRatioX;
-        this.screenRatioY = screenRatioY;
+        this.screenRatioX = 1080.0 / SCREEN_WIDTH;
+        this.screenRatioY = 2186.0 / SCREEN_HEIGHT;
+        this.SCREEN_WIDTH = SCREEN_WIDTH;
+        this.SCREEN_HEIGHT = SCREEN_HEIGHT;
     }
 
     public void draw(Canvas canvas) {
