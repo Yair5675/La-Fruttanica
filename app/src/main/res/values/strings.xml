@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">La Fruttanica</string>
     <string name="play_btn_txt"><b>Let\'s Begin!</b></string>
+    <string name="logo_description">The logo of the game</string>
+    <string name="platform_description">The platform upon which the player moves</string>
+    <string name="play_btn_description">The button which, once being pressed, takes the user to the game activity</string>
+    <string name="muting_btn_description">Gives the player the choice of whether mute the music or keep it playing</string>
 </resources>

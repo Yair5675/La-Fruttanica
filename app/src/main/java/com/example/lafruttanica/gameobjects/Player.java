@@ -31,7 +31,7 @@ public class Player extends GameObject {
         this.acceleration = accelerate.NONE;
 
         // Loading the image:
-        this.image = BitmapFactory.decodeResource(res, R.drawable.player_basket_scaled);
+        this.image = BitmapFactory.decodeResource(res, R.drawable.player_basket);
 
         // The image width should be a fourth of the total width. Calculate the height accordingly:
         final int PLAYER_WIDTH = SCREEN_WIDTH / 4;

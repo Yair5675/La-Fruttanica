@@ -9,7 +9,6 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.Typeface;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -28,18 +27,23 @@ import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Random;
 
+/**
+ * Handles the game's objects, updates and draws them. Also handles touch events and score.
+ */
 @SuppressLint("ViewConstructor")
 public class GameManager extends SurfaceView implements View.OnTouchListener, SurfaceHolder.Callback {
+    private GameLoop gameLoop; /* Object handling the run of the game */
     private final Player player; /* The player object in the game */
     private final Platform platform; /* The platform of the game */
     private final ArrayList<Fruit> fruits; /* The fruits that are on the screen */
     private final int SCREEN_WIDTH; /* The width of the screen */
     private final int SCREEN_HEIGHT; /* The height of the screen */
     private final Bitmap BACKGROUND; /* The background image of the game */
-    private final GameLoop gameLoop; /* Object handling the run of the game */
+    private final SurfaceHolder surfaceHolder; /* The surface object of the game */
     private long time = System.currentTimeMillis(); /* Variable to record time for the spawn rate of fruits */
-    private static final Random random = new Random();
+    private static final Random random = new Random(); /* A variable to get random values */
     private static final short MAX_FRUITS = 4; /* The maximum amount of fruits allowed to be on the screen */
+    private static final boolean SHOW_UPS = false; /* Whether the ups and fps will be shown in the screen */
 
     // To make the game compatible for every device, the movement of objects will be multiplied by this ratio:
     private final double screenRatioX;
@@ -49,10 +53,11 @@ public class GameManager extends SurfaceView implements View.OnTouchListener, Su
     public GameManager(Context context, final int SCREEN_WIDTH, final int SCREEN_HEIGHT) {
         super(context);
 
-        getHolder().addCallback(this);
+        this.surfaceHolder = getHolder();
+        this.surfaceHolder.addCallback(this);
 
         // Setting the game-loop:
-        this.gameLoop = new GameLoop(this, getHolder());
+        this.initLoop();
         setFocusable(true);
 
         // Saving the screen's width and height:
@@ -64,12 +69,10 @@ public class GameManager extends SurfaceView implements View.OnTouchListener, Su
         // Calculating the ratio:
         this.screenRatioX = 1080.0 / SCREEN_WIDTH;
         this.screenRatioY = 2186.0 / SCREEN_HEIGHT;
-        Log.v("Ratio is one:", (screenRatioX == 1) + " " + (screenRatioY == 1));
-
-        final Resources res = context.getResources();
 
         // Setting the background:
-        Bitmap tempBackground = BitmapFactory.decodeResource(res, R.drawable.background_tree_scaled);
+        final Resources res = context.getResources();
+        Bitmap tempBackground = BitmapFactory.decodeResource(res, R.drawable.background_tree);
         BACKGROUND = Bitmap.createScaledBitmap(tempBackground, SCREEN_WIDTH, SCREEN_HEIGHT, false);
 
         // Loading the platform object:
@@ -82,6 +85,11 @@ public class GameManager extends SurfaceView implements View.OnTouchListener, Su
         this.setOnTouchListener(this);
     }
 
+    private void initLoop() {
+        this.gameLoop = new GameLoop(this, this.surfaceHolder);
+    }
+
+
     @Override
     public void draw(Canvas canvas) {
         super.draw(canvas);
@@ -92,9 +100,11 @@ public class GameManager extends SurfaceView implements View.OnTouchListener, Su
         // Drawing the player's score:
         drawScore(canvas);
 
-        // Displaying the updates and frames per second:
-        drawFPS(canvas);
-        this.drawUPS(canvas);
+        // Displaying the updates and frames per second if needed:
+        if (SHOW_UPS) {
+            drawFPS(canvas);
+            this.drawUPS(canvas);
+        }
 
         // Drawing the platform:
          this.platform.draw(canvas);
@@ -104,9 +114,10 @@ public class GameManager extends SurfaceView implements View.OnTouchListener, Su
 
         // Drawing the fruits:
         for (Fruit fruit : this.fruits) {
-            // Making sure the fruit isn't null for some reason:
+            // Making sure the fruit isn't null:
             if (fruit == null) continue;
 
+            // Drawing the fruit:
             fruit.draw(canvas);
         }
     }
@@ -267,6 +278,12 @@ public class GameManager extends SurfaceView implements View.OnTouchListener, Su
 
     @Override
     public void surfaceCreated(@NonNull SurfaceHolder surfaceHolder) {
+        // If the thread has been terminated, starting it again will throw an exception. To solve
+        // that, we will make sure to reset the loop if the thread is indeed terminated:
+        if (this.gameLoop.getState().equals(Thread.State.TERMINATED)) {
+            this.initLoop();
+        }
+
         // Starting the loop once the surface is created:
         this.gameLoop.startLoop();
     }
@@ -278,14 +295,9 @@ public class GameManager extends SurfaceView implements View.OnTouchListener, Su
 
     @Override
     public void surfaceDestroyed(@NonNull SurfaceHolder surfaceHolder) {
-        this.gameLoop.stopLoop();
     }
 
     public void pause() {
-        this.gameLoop.stopLoop();
-    }
-
-    public void resume() {
         this.gameLoop.stopLoop();
     }
 }

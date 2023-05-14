@@ -9,9 +9,13 @@ import android.os.Bundle;
 import com.example.lafruttanica.R;
 import com.example.lafruttanica.gamehandlers.GameManager;
 
+/**
+ * An activity class for the game, hands the control over to the GameManager class.
+ */
 public class GameActivity extends AppCompatActivity {
-    private GameManager gameManager;
-    private MediaPlayer mediaPlayer;
+    private boolean isMuted; /* Whether the player wants to mute the music or not */
+    private MediaPlayer mediaPlayer; /* Media player for music */
+    private GameManager gameManager; /* The game manager object that actually handles the game */
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,30 +29,51 @@ public class GameActivity extends AppCompatActivity {
         gameManager = new GameManager(this, point.x, point.y); // Point.x is the screen's width, Point.y is the screen's height
 
         setContentView(gameManager);
+
+        // Getting the state of the music from the previous activity:
+        this.isMuted = getIntent().getBooleanExtra("isMuted", false);
+
+        // Loading the media player:
+        this.mediaPlayer = MediaPlayer.create(this, R.raw.game_music);
+        this.mediaPlayer.setLooping(true);
+
+        // Starting the media player only if it isn't muted:
+        if (!isMuted)
+            this.mediaPlayer.start();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        // Resuming the gameManager:
-        this.gameManager.resume();
+
         // Resuming the music from the beginning:
-        mediaPlayer = MediaPlayer.create(this, R.raw.game_music);
-        mediaPlayer.setLooping(true);
-        mediaPlayer.start();
+        if (!isMuted)
+            mediaPlayer.start();
         /*
          * Credit to the music:
          * https://www.youtube.com/watch?v=n3uQ2aVzPbk&list=PLFM-Uv4841gxZDGVzkVCDf-kzYNsRpxKK&ab_channel=Larachma
-         */
+        */
     }
 
     @Override
     protected void onPause() {
-        super.onPause();
         // Pausing the game:
         this.gameManager.pause();
+
+        super.onPause();
+
         // Pausing the music:
-        mediaPlayer.stop();
-        mediaPlayer.release();
+        if (!isMuted)
+            this.mediaPlayer.pause();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        if (!isMuted) {
+            this.mediaPlayer.stop();
+            this.mediaPlayer.release();
+        }
     }
 }

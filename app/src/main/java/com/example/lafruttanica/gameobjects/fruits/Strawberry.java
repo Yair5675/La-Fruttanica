@@ -18,7 +18,7 @@ public class Strawberry extends Fruit {
         super(gameManager, SCORE);
 
         // Setting and resizing the image:
-        this.image = BitmapFactory.decodeResource(gameManager.getResources(), R.drawable.strawberry_scaled);
+        this.image = BitmapFactory.decodeResource(gameManager.getResources(), R.drawable.strawberry);
         final int STRAWBERRY_WIDTH = (int) (this.gameManager.getScreenWidth() * FRUIT_SCALE);
         final int STRAWBERRY_HEIGHT = this.image.getHeight() * STRAWBERRY_WIDTH / this.image.getWidth();
 

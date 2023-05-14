@@ -14,7 +14,7 @@ public class Apple extends Fruit {
         super(gameManager, SCORE);
 
         // Setting and resizing the image:
-        this.image = BitmapFactory.decodeResource(gameManager.getResources(), R.drawable.apple_scaled);
+        this.image = BitmapFactory.decodeResource(gameManager.getResources(), R.drawable.apple);
         final int APPLE_WIDTH = (int) (this.gameManager.getScreenWidth() * FRUIT_SCALE);
         final int APPLE_HEIGHT = this.image.getHeight() * APPLE_WIDTH / this.image.getWidth();
 

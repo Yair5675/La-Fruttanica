@@ -15,7 +15,7 @@ public class Platform extends GameObject {
 
         final Resources res = gameManager.getResources();
         // Loading the platform's image:
-        this.image = BitmapFactory.decodeResource(res, R.drawable.new_platform_scaled);
+        this.image = BitmapFactory.decodeResource(res, R.drawable.platform);
 
         // Calculating the new height for the platform using proportions:
         final int NEW_HEIGHT = this.image.getHeight() * SCREEN_WIDTH / this.image.getWidth();

@@ -19,7 +19,7 @@ public class BlueBerry extends Fruit {
         this.velX = SIDE_VELOCITY;
 
         // Setting and resizing the image:
-        this.image = BitmapFactory.decodeResource(gameManager.getResources(), R.drawable.blueberry_scaled);
+        this.image = BitmapFactory.decodeResource(gameManager.getResources(), R.drawable.blueberry);
         final int BLUEBERRY_WIDTH = (int) (this.gameManager.getScreenWidth() * FRUIT_SCALE);
         final int BLUEBERRY_HEIGHT = this.image.getHeight() * BLUEBERRY_WIDTH / this.image.getWidth();
 

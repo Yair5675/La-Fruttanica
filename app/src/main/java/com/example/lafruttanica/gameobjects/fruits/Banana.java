@@ -23,7 +23,7 @@ public class Banana extends Fruit {
         this.movementX = 0;
 
         // Setting and resizing the image:
-        this.image = BitmapFactory.decodeResource(gameManager.getResources(), R.drawable.banana_scaled);
+        this.image = BitmapFactory.decodeResource(gameManager.getResources(), R.drawable.banana);
 
         final int BANANA_WIDTH = (int) (this.gameManager.getScreenWidth() * FRUIT_SCALE);
         final int BANANA_HEIGHT = this.image.getHeight() * BANANA_WIDTH / this.image.getWidth();

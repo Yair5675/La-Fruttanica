@@ -19,8 +19,8 @@ public abstract class GameObject {
     private static final double MAX_SPEED = 70; /* The maximum possible speed of the player */
 
     // To make the game compatible for every device, the movement of objects will be multiplied by this ratio:
-    protected double screenRatioX;
-    protected double screenRatioY;
+    protected final double screenRatioX;
+    protected final double screenRatioY;
 
     public GameObject(final int SCREEN_WIDTH, final int SCREEN_HEIGHT) {
         this.x = 0;

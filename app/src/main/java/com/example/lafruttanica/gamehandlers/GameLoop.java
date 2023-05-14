@@ -4,6 +4,10 @@ import android.graphics.Canvas;
 import android.util.Log;
 import android.view.SurfaceHolder;
 
+/**
+ * This class handles the frame rate and updates per second of the game, allowing it to run
+ * consistently at a constant rate.
+ */
 public class GameLoop extends Thread {
     private double averageUPS; /* The average updates per second */
     private double averageFPS; /* The average frames per second */
@@ -31,11 +35,13 @@ public class GameLoop extends Thread {
     }
 
     public void startLoop() {
+        Log.d("GameLoop.java", "startLoop() called");
         this.isRunning = true;
-        start();
+        this.start();
     }
 
     public void stopLoop() {
+        Log.d("GameLoop.java", "stopLoop()");
         this.isRunning = false;
         try {
             this.join();
@@ -123,7 +129,9 @@ public class GameLoop extends Thread {
                 // Calculating the averages:
                 this.averageUPS = updatesCount / (1e-3 * elapsedTime);
                 this.averageFPS = framesCount / (1e-3 * elapsedTime);
+
                 Log.i("FPS and UPS: ", averageFPS + " " + averageUPS);
+
                 // Resetting the time and counters:
                 startTime = System.currentTimeMillis();
                 updatesCount = 0;
